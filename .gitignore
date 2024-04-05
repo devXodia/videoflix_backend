@@ -6,6 +6,8 @@ __pycache__
 db.sqlite3
 media
 
+up.bat
+
 # Backup files # 
 *.bak 
 
