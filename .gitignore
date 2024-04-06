@@ -6,6 +6,12 @@ __pycache__
 db.sqlite3
 media
 
+<<<<<<< HEAD
+=======
+up.bat
+up.sh
+
+>>>>>>> 0526f82307f94c2c4281255a23fb2c020c6a0bff
 # Backup files # 
 *.bak 
 
