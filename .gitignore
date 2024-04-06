@@ -6,10 +6,10 @@ __pycache__
 db.sqlite3
 media
 
-up.bat
-
 # Backup files # 
 *.bak 
+
+up.bat
 
 # If you are using PyCharm # 
 # User-specific stuff
