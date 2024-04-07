@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -38,20 +41,35 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_rq',
+    'content'
     
 ]
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 360,
+    },
+}
+
 
 CACHES = {    
     "default": {
     "BACKEND": "django_redis.cache.RedisCache",
     "LOCATION": "redis://127.0.0.1:6379/1",        
-    "OPTIONS": {            
+    "OPTIONS": {      
+        "PASSWORD": 'foobared',
         "CLIENT_CLASS": "django_redis.client.DefaultClient"        
         },        
     "KEY_PREFIX": "videoflix"    
         }
 }
+
+CACHE_TTL = 60 * 15
 
 
 MIDDLEWARE = [
