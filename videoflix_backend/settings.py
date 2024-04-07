@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'users',
     'debug_toolbar',
     'django_rq',
-    'content'
+    'content.apps.ContentConfig'
     
 ]
 
