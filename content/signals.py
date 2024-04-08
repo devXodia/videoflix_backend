@@ -20,6 +20,5 @@ def video_post_delete(sender, instance, **kwargs):
             
 
 
-"""TEST"""
 
 
