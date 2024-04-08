@@ -1,7 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from .managers import CustomUserManager
 
 class CustomUser(AbstractUser):
-    custom = models.CharField(max_length = 500, default='')
+    custom = models.JSONField(null=True)
     phone = models.CharField(max_length = 500, default='')
-    adress = models.CharField(max_length = 500, default='')
+    address = models.CharField(max_length = 500, default='')
+    email = models.EmailField(unique=True)
+    
+    objects = CustomUserManager()
