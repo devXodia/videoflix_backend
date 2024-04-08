@@ -18,8 +18,3 @@ def video_post_delete(sender, instance, **kwargs):
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
             
-
-
-
-
-'''TEST'''
