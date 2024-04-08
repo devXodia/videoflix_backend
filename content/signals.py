@@ -5,7 +5,9 @@ import os
 
 @receiver(post_save, sender = Video)
 def video_post_save(sender, instance, created, **kwargs):
-    """Action after the video has been uploaded."""
+    """
+    Action after the video has been uploaded.
+    """
 
 @receiver(post_delete, sender = Video)
 def video_post_delete(sender, instance, **kwargs):
@@ -16,3 +18,8 @@ def video_post_delete(sender, instance, **kwargs):
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
             
+
+
+"""TEST"""
+
+
