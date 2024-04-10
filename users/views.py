@@ -7,12 +7,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserRegistrationSerializer
 from .utility import generate_verification_token
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
 
 CACHETTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # @cache_page(CACHETTL)
 
-
+User = get_user_model()
 
 @api_view(['POST'])
 def register_api(request):
@@ -33,3 +35,19 @@ def register_api(request):
             return Response({'message': 'User registered successfully. Please check your email for verification.', 'verification_link': verification_link}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    
+
+@api_view(['GET'])
+def verify_email(request):
+    token = request.GET.get('token')
+    if token:
+        user = User.objects.filter(verification_token=token).first()
+        if user:
+            user.is_verified = True
+            user.save()
+            # Redirect to a success page or return a success message
+            return redirect('success_url')
+    # Redirect to an error page or return an error message
+    return redirect('error_url')
