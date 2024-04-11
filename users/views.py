@@ -45,7 +45,7 @@ def verify_email(request):
     if token:
         user = User.objects.filter(verification_token=token).first()
         if user:
-            user.is_verified = True
+            user.email_verified = True
             user.save()
             # Redirect to a success page or return a success message
             return redirect('success_url')
