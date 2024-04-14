@@ -9,12 +9,16 @@ from .serializers import UserRegistrationSerializer
 from .utility import generate_verification_token
 from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 CACHETTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # @cache_page(CACHETTL)
 
 User = get_user_model()
+
+
 
 @api_view(['POST'])
 def register_api(request):
@@ -27,14 +31,22 @@ def register_api(request):
             verification_token = generate_verification_token(user)
 
             # Construct verification link
-            
             verification_link = f'https://yourfrontend.com/verify-email?token={verification_token}'
-            
 
-            # Return verification link in the response
-            return Response({'message': 'User registered successfully. Please check your email for verification.', 'verification_link': verification_link}, status=status.HTTP_201_CREATED)
+            # Send verification email
+            subject = 'Welcome to Videoflix!'
+            message = render_to_string('verification_email.html', {
+                'user': user,
+                'verification_link': verification_link,
+            })
+            user_email = user.email
+            send_mail(subject, message, 'videoflix@alen-alduk.com', [user_email])
+
+            # Return success response
+            return Response({'message': 'User registered successfully. Please check your email for verification.'}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
 
     

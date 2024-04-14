@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +28,7 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f3_$3g$kydg!-+h@z0e9lv5gpg-*)vx1ex5hlyo4n#^9%167+0'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +42,15 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Application definition
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = os.getenv('EMAIL_HOST_ADRESS')
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('BACKEND_EMAIL')  
+EMAIL_HOST_PASSWORD = os.getenv('BACKEND_MAIL_PASSWORD')  
+EMAIL_USE_TLS = True  
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -69,7 +83,7 @@ CACHES = {
     "BACKEND": "django_redis.cache.RedisCache",
     "LOCATION": "redis://127.0.0.1:6379/1",        
     "OPTIONS": {      
-        "PASSWORD": 'foobared',
+        "PASSWORD": os.getenv('REDIS_CACHE_PASSWORD'),
         "CLIENT_CLASS": "django_redis.client.DefaultClient"        
         },        
     "KEY_PREFIX": "videoflix"    
