@@ -107,6 +107,11 @@ MIDDLEWARE = [
    
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'custom_auth.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Keep the default ModelBackend
+]
+
 INTERNAL_IPS = [
     '127.0.0.1'
 ]

@@ -30,6 +30,9 @@ def register_api(request):
             # Generate verification token (for demonstration purposes, you need to implement this)
             verification_token = generate_verification_token(user)
 
+            user.verification_token = verification_token
+            user.save()
+
             # Construct verification link
             verification_link = f'https://yourfrontend.com/verify-email?token={verification_token}'
 
