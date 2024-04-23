@@ -34,7 +34,7 @@ def register_api(request):
             user.save()
 
             # Construct verification link
-            verification_link = f'https://yourfrontend.com/verify-email?token={verification_token}'
+            verification_link = f'https://localhost:4200/verify/{verification_token}'
 
             # Send verification email
             subject = 'Welcome to Videoflix!'
@@ -54,15 +54,20 @@ def register_api(request):
 
     
 
-@api_view(['GET'])
+@api_view(['POST'])
 def verify_email(request):
-    token = request.GET.get('token')
-    if token:
-        user = User.objects.filter(verification_token=token).first()
-        if user:
-            user.email_verified = True
-            user.save()
-            # Redirect to a success page or return a success message
-            return redirect('success_url')
-    # Redirect to an error page or return an error message
-    return redirect('error_url')
+    if request.method == 'POST':
+        token = request.data.get('token')
+        if token:
+            user = User.objects.filter(verification_token=token).first()
+            if user:
+                user.email_verified = True
+                user.save()
+                # Return a success message
+                return Response({'message': 'User verified.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'message': 'Token not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'message': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
