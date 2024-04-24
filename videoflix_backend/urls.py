@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.models import User
-from users.views import register_api, verify_email
+from users.views import register_api, verify_email, login_api
 
 
 
@@ -29,5 +29,6 @@ urlpatterns = [
     path('django-rq/', include('django_rq.urls')),
     path('api/register/', register_api, name='register_api'),
     path('verify-email/', verify_email, name='verify_email'),
+    path('login', login_api, name='login_api')
    
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

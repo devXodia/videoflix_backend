@@ -5,9 +5,10 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.contrib.auth import authenticate, login
+from rest_framework.authtoken.models import Token
 from .serializers import UserRegistrationSerializer
 from .utility import generate_verification_token
-from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -71,3 +72,27 @@ def verify_email(request):
             return Response({'message': 'Token not provided.'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'message': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+
+
+@api_view(['POST'])
+def login_api(request):
+    if request.method == 'POST':
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Authenticate user
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.email_verified:  # Check if the user's email is verified
+                login(request, user)
+                # Generate or retrieve token
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'Email not verified'}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return Response({'message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)    
