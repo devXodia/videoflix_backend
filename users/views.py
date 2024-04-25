@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from django.contrib.auth import login, authenticate
 from rest_framework.authtoken.models import Token
 from .serializers import UserRegistrationSerializer
-from .utility import generate_verification_token
+from .utility import generate_verification_token, generate_password_reset_token
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -36,7 +36,7 @@ def register_api(request):
             user.save()
 
             # Construct verification link
-            verification_link = f'https://localhost:4200/verify/{verification_token}'
+            verification_link = f'http://localhost:4200/verify/{verification_token}'
 
             # Send verification email
             subject = 'Welcome to Videoflix!'
@@ -96,3 +96,35 @@ def login_api(request):
             return Response({'message': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response({'message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)    
+    
+
+
+@api_view(['POST'])
+def send_password_reset(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User with this email does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Generate password reset token
+        password_reset_token = generate_password_reset_token(user)
+
+        # Save password reset token to user model
+        user.password_reset_token = password_reset_token
+        user.save()
+
+        # Construct password reset link
+        password_reset_link = f'http://localhost:4200/set-password/{password_reset_token}'
+
+        # Send password reset email
+        subject = 'Password Reset Request'
+        message = render_to_string('password_reset_email.html', {
+            'user': user,
+            'password_reset_link': password_reset_link,
+        })
+        send_mail(subject, message, 'videoflix@alen-alduk.com', [email])
+
+        # Return success response
+        return Response({'message': 'Password reset instructions sent to your email.'}, status=status.HTTP_200_OK)
