@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.models import User
-from users.views import register_api, verify_email, login_api
+from users.views import register_api, verify_email, login_api, send_password_reset, set_new_password
 
 
 
@@ -29,6 +29,8 @@ urlpatterns = [
     path('django-rq/', include('django_rq.urls')),
     path('api/register/', register_api, name='register_api'),
     path('verify-email/', verify_email, name='verify_email'),
-    path('login', login_api, name='login_api')
-   
+    path('login', login_api, name='login_api'),
+    path('password-reset', send_password_reset, name='send_password_reset'),
+    path('set-password', set_new_password, name='set_new_password')
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -128,3 +128,23 @@ def send_password_reset(request):
 
         # Return success response
         return Response({'message': 'Password reset instructions sent to your email.'}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def set_new_password(request):
+    if request.method == 'POST':
+        token = request.data.get('token')
+        password = request.data.get('password')
+        if token:
+            user = User.objects.filter(password_reset_token=token).first()
+            if user:
+                user.set_password(password)
+                user.save()
+                # Return a success message
+                return Response({'message': 'Password changed successfully.'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'message': 'Token not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'message': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
