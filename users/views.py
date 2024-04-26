@@ -81,7 +81,6 @@ def login_api(request):
     if request.method == 'POST':
         email = request.data.get('email')
         password = request.data.get('password')
-        print('POST DATA', email, password)
         # Authenticate user
         user = authenticate(username=email, password=password)
 
