@@ -34,5 +34,6 @@ urlpatterns = [
     path('set-password', set_new_password, name='set_new_password'),
      path('videos/<str:title>/480p/', views.stream_video_480p, name='stream_video_480p'),
     path('videos/<str:title>/720p/', views.stream_video_720p, name='stream_video_720p'),
+    path('videos', views.movie_list, name='movie_list' )
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
