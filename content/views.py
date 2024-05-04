@@ -12,12 +12,11 @@ from .models import Video
 
 def stream_video_480p(request, title):
     video = get_object_or_404(Video, title=title)
-    video_path = video.video_file.path.replace('.mp4', '_480p.m3u8')
+    video_file_name = os.path.basename(video.video_file.path)
+    video_path = os.path.join(os.path.dirname(video.video_file.path), '480p', video_file_name.replace('.mp4', '_480p.m3u8'))
+    print('video_path: ', os.path.join(os.path.dirname(video.video_file.path), '480p'))
     return FileResponse(open(video_path, 'rb'))
 
-
-
-""" @api_view(['GET']) """
 def stream_video_720p(request, title):
     video = get_object_or_404(Video, title=title)
     video_path = video.video_file.path.replace('.mp4', '_720p.m3u8')

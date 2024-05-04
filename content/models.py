@@ -3,10 +3,11 @@ from datetime import date
 import os
 # Create your models here.
 
-
 def video_upload_path(instance, filename):
-    # Use the title field of the instance to create the directory name
-    directory_name = instance.title.replace(' ', '_')
+    # Get the filename of the uploaded file
+    base_filename = os.path.basename(filename)
+    # Use the filename (with extension) to create the directory name
+    directory_name = os.path.splitext(base_filename)[0]
     # Join the directory name and filename to create the full upload path
     return os.path.join('videos', directory_name, filename)
 

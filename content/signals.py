@@ -13,10 +13,17 @@ def video_post_save(sender, instance, created, **kwargs):
     if created:  # Only execute if the video is newly created
         try:
             input_path = instance.video_file.path
+            output_directory_480p = os.path.join(os.path.dirname(input_path), '480p')
+            output_directory_720p = os.path.join(os.path.dirname(input_path), '720p')
+
+            # Ensure the directories exist
+            os.makedirs(output_directory_480p, exist_ok=True)
+            os.makedirs(output_directory_720p, exist_ok=True)
 
             # Define output paths for 480p and 720p HLS streams
-            output_path_480p = input_path.replace('.mp4', '_480p.m3u8')
-            output_path_720p = input_path.replace('.mp4', '_720p.m3u8')
+            output_path_480p = os.path.join(output_directory_480p, os.path.basename(input_path).replace('.mp4', '_480p.m3u8'))
+            output_path_720p = os.path.join(output_directory_720p, os.path.basename(input_path).replace('.mp4', '_720p.m3u8'))
+
 
             # Convert to 480p HLS
             command_480p = ['ffmpeg', '-i', input_path, '-vf', 'scale=-2:480', '-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-hls_time', '10', '-hls_list_size', '0', '-f', 'hls', output_path_480p]
@@ -33,6 +40,7 @@ def video_post_save(sender, instance, created, **kwargs):
 
         except Exception as e:
             print(f"Error converting video: {e}")
+
 
 
 
