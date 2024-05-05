@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import Video
 from .serializers import VideoSerializer
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -17,6 +18,7 @@ def stream_video_480p(request, title):
     video_path = os.path.join(os.path.dirname(video.video_file.path), '480p', video_file_name.replace('.mp4', '_480p.m3u8'))
     print('video_path: ', os.path.join(os.path.dirname(video.video_file.path), '480p'))
     return FileResponse(open(video_path, 'rb'))
+
 
 @api_view(['GET'])
 def stream_video_720p(request, title):
