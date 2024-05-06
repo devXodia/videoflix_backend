@@ -5,8 +5,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+
+from users.views import CACHETTL
 from .models import Video
 from .serializers import VideoSerializer
+from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -25,6 +28,7 @@ def stream_video_720p(request, title):
     video = get_object_or_404(Video, title=title)
     video_path = video.video_file.path.replace('.mp4', '_720p.m3u8')
     return FileResponse(open(video_path, 'rb'))
+
 
 
 @api_view(['GET'])

@@ -20,7 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 
 CACHETTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-# @cache_page(CACHETTL)
+""" @cache_page(CACHETTL) """
 
 User = get_user_model()
 
