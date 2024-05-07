@@ -23,6 +23,8 @@ load_dotenv()
 """ IMPLEMENT POSTGRES """
 
 
+
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -106,16 +108,16 @@ RQ_QUEUES = {
 }
 
 
-CACHES = {    
+CACHES = {
     "default": {
-    "BACKEND": "django_redis.cache.RedisCache",
-    "LOCATION": "redis://127.0.0.1:6379/1",        
-    "OPTIONS": {      
-        "PASSWORD": os.getenv('REDIS_CACHE_PASSWORD'),
-        "CLIENT_CLASS": "django_redis.client.DefaultClient"        
-        },        
-    "KEY_PREFIX": "videoflix"    
-        }
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "PASSWORD": os.getenv('REDIS_CACHE_PASSWORD'),
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "videoflix"
+    }
 }
 
 CACHE_TTL = 60 * 15

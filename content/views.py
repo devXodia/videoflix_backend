@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, FileResponse
 import os
@@ -5,13 +6,14 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-
-from users.views import CACHETTL
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from .models import Video
 from .serializers import VideoSerializer
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 @api_view(['GET'])
@@ -30,7 +32,7 @@ def stream_video_720p(request, title):
     return FileResponse(open(video_path, 'rb'))
 
 
-
+@cache_page(CACHE_TTL)
 @api_view(['GET'])
 def movie_list(request):
     if request.method == 'GET':
