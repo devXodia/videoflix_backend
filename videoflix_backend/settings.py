@@ -104,6 +104,7 @@ RQ_QUEUES = {
         'PORT': 6379,
         'DB': 0,
         'DEFAULT_TIMEOUT': 360,
+        'PASSWORD': os.getenv('RQ_PASSWORD')
     },
 }
 
@@ -124,7 +125,7 @@ CACHE_TTL = 60 * 15
 
 
 MIDDLEWARE = [
-     "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',

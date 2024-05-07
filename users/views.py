@@ -1,12 +1,11 @@
-from django.shortcuts import render
+
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from django.views.decorators.cache import cache_page
+
 from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import login, authenticate, logout
-from rest_framework.authtoken.models import Token
+from django.contrib.auth import login, authenticate
 from .serializers import UserRegistrationSerializer
 from .utility import generate_verification_token, generate_password_reset_token
 from django.contrib.auth import get_user_model
@@ -81,9 +80,6 @@ def register_api(request):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    
-
-    
 
 @api_view(['POST'])
 def verify_email(request):

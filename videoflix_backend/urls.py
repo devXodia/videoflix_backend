@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth.models import User
 from users.views import register_api, verify_email, login_api, send_password_reset, set_new_password, LogoutAPIView
 from content import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -33,11 +32,11 @@ urlpatterns = [
     path('login', login_api, name='login_api'),
     path('password-reset', send_password_reset, name='send_password_reset'),
     path('set-password', set_new_password, name='set_new_password'),
-     path('videos/<str:title>/480p/', views.stream_video_480p, name='stream_video_480p'),
+    path('videos/<str:title>/480p/', views.stream_video_480p, name='stream_video_480p'),
     path('videos/<str:title>/720p/', views.stream_video_720p, name='stream_video_720p'),
     path('videos', views.movie_list, name='movie_list' ),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('logout/', LogoutAPIView, name='logout'),
 
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

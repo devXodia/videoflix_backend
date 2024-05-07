@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 import os
 import subprocess
+from django_rq import job
 
 
 @receiver(post_save, sender=Video)
