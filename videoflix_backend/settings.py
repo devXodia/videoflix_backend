@@ -18,10 +18,9 @@ from datetime import timedelta
 # Load environment variables from .env file
 load_dotenv()
 
-""" IMPLEMENT REDIS """
 """ IMPLEMENT RQ """
 """ IMPLEMENT POSTGRES """
-
+""" GET NGINX WORKING ON SERVER"""
 
 
 
