@@ -18,10 +18,6 @@ from datetime import timedelta
 # Load environment variables from .env file
 load_dotenv()
 
-""" IMPLEMENT RQ """
-""" IMPLEMENT POSTGRES """
-""" GET NGINX WORKING ON SERVER"""
-
 
 
 SIMPLE_JWT = {
@@ -170,12 +166,24 @@ WSGI_APPLICATION = 'videoflix_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+} """
+
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "OPTIONS": {
+            "service": "my_service",
+            "passfile": ".my_pgpass",
+        },
+    }
 }
+
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -215,6 +223,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = "/var/www/videoflix_backend/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
