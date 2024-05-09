@@ -17,6 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
 
+
 CACHETTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 """ @cache_page(CACHETTL) """
@@ -36,18 +37,20 @@ class MyTokenObtainPairView(TokenObtainPairView):
         })
 
 @api_view(['POST'])
-class LogoutAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request):
+def logout_view(request):
+    if request.method == 'POST':
         try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+            refresh_token = request.data.get('refresh_token')
+            if refresh_token:
+                token = RefreshToken(refresh_token)
+                token.blacklist()
 
-            return Response(status=status.HTTP_205_RESET_CONTENT)
+                return Response(status=status.HTTP_205_RESET_CONTENT)
+            else:
+                return Response({"detail": "Refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "An error occurred while logging out."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['POST'])
