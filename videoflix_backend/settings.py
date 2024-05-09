@@ -61,12 +61,13 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'alen-alduk.developerakademie.org']
 
 CORS_ALLOWED_ORIGINS = [
 
     "http://localhost:4200",
     "http://127.0.0.1:4000",
+"http://alen-alduk.developerakademie.org"
 ]
 
 # Application definition
@@ -216,7 +217,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATIC_ROOT = '/var/www/videoflix_backend/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
