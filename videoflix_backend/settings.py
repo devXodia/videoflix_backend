@@ -56,13 +56,14 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'alen-alduk.developerakademie.org']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'alen-alduk.developerakademie.org', 'videomiix.com']
 
 CORS_ALLOWED_ORIGINS = [
 
     "http://localhost:4200",
     "http://127.0.0.1:4000",
-"http://alen-alduk.developerakademie.org"
+"https://alen-alduk.developerakademie.org",
+"https://videomiix.com"
 ]
 
 # Application definition
