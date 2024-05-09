@@ -37,8 +37,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'PAGE_SIZE': 10
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Example lifetime for access tokens
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Example lifetime for refresh tokens
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
