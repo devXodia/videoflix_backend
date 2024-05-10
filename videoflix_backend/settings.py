@@ -107,7 +107,7 @@ RQ_QUEUES = {
         'PORT': 6379,
         'DB': 0,
         'DEFAULT_TIMEOUT': 360,
-        'PASSWORD': os.getenv('RQ_PASSWORD')
+	'PASSWORD': os.getenv('RQ_PASSWORD')
     },
 }
 
