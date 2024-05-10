@@ -6,13 +6,15 @@ import subprocess
 from django_rq import job
 from redis import Redis
 from rq import Queue
+import django_rq
 
-queue = Queue(connection=Redis())
+
 
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     if created:  # Only execute if the video is newly created
         try:
+            queue = django_rq.get_queue('default')
             queue.enqueue(process_video, instance.video_file.path)
             
 
