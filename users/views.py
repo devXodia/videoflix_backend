@@ -67,7 +67,7 @@ def register_api(request):
             user.save()
 
             # Construct verification link
-            verification_link = f'https://alen-alduk.developerakademie.org/verify/{verification_token}'
+            verification_link = f'https://videomiix.com/verify/{verification_token}'
 
             # Send verification email
             subject = 'Welcome to Videoflix!'
@@ -148,7 +148,7 @@ def send_password_reset(request):
         user.save()
 
         # Construct password reset link
-        password_reset_link = f'https://alen-alduk.developerakademie.org/set-password/{password_reset_token}'
+        password_reset_link = f'https://videomiix.com/set-password/{password_reset_token}'
 
         # Send password reset email
         subject = 'Password Reset Request'
